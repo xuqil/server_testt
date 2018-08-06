@@ -1,0 +1,156 @@
+{% load staticfiles %}
+{% load image_tags %}
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Heart Sea</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="" />
+<script type="applijewelleryion/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
+<link href="{% static 'image/css/bootstrap.css' %}" rel='stylesheet' type='text/css' />
+    <link rel="stylesheet" href="{% static 'image/css/highlights/github.css' %}"/>
+    <link rel="stylesheet" href="{% static 'image/css/highlights/page.css' %}">
+<!-- Custom Theme files -->
+<link href='https://fonts.googleapis.com/css?family=Raleway:400,600,700' rel='stylesheet' type='text/css'>
+<link href="{% static 'image/css/style.css' %}" rel='stylesheet' type='text/css' />
+<script src="{% static 'image/js/jquery-1.11.1.min.js' %}"></script>
+<script src="{% static  'image/js/bootstrap.min.js' %}"></script>
+<!-- animation-effect -->
+<link href="{% static 'image/css/animate.min.css' %}" rel="stylesheet">
+<script src="{% static 'image/js/wow.min.js' %}"></script>
+<script>
+ new WOW().init();
+</script>
+<!-- //animation-effect -->
+</head>
+<body>
+<div class="header" id="ban">
+		<div class="container">
+			<div class="head-left wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+				<div class="header-search">
+						<div class="search">
+							<input class="search_box" type="checkbox" id="search_box">
+							<label class="icon-search" for="search_box"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></label>
+							<div class="search_form">
+								<form action="{% url 'image:search' %}" method="post">{% csrf_token %}
+									<input type="text" name="search" placeholder="Search...">
+									<input type="submit" value="Send">
+								</form>
+							</div>
+						</div>
+				</div>
+			</div>
+			<div class="header_right wow fadeInLeft animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInLeft;">
+			<nav class="navbar navbar-default">
+				<!-- Brand and toggle get grouped for better mobile display -->
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+
+				<!-- Collect the nav links, forms, and other content for toggling -->
+				<div class="collapse navbar-collapse nav-wil" id="bs-example-navbar-collapse-1">
+					<nav class="link-effect-7" id="link-effect-7">
+						<ul class="nav navbar-nav">
+							<li class="active act"><a href="{% url 'image:index' %}">主页</a></li>
+							<li><a href="{% url 'image:about' %}">关于</a></li>
+                            <li><a href="{% url 'rss' %}">RSS 订阅</a></li>
+                            {% get_categories as category_list %}
+                            {% for category in category_list %}
+							<li><a href="{% url 'image:category' category.pk %}">{{ category.name }}</a></li>
+                            {% endfor %}
+						</ul>
+					</nav>
+				</div>
+				<!-- /.navbar-collapse -->
+			</nav>
+			</div>
+			<div class="nav navbar-nav navbar-right social-icons wow fadeInRight animated animated" data-wow-delay=".5s" style="visibility: visible; animation-delay: 0.5s; animation-name: fadeInRight;">
+					<ul>
+						<li><a href="#"> </a></li>
+						<li><a href="#" class="pin"> </a></li>
+						<li><a href="#" class="in"> </a></li>
+						<li><a href="#" class="be"> </a></li>
+
+						<li><a href="#" class="vimeo"> </a></li>
+					</ul>
+				</div>
+			<div class="clearfix"> </div>
+		</div>
+	</div>
+
+<!-- banner -->
+{% block main %}
+{% endblock %}
+
+		<!-- technology-right -->
+		<div class="col-md-3 technology-right">
+
+				<div class="blo-top1">
+
+					<div class="tech-btm">
+					<div class="search-1 wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+							<form action="{% url 'image:search' %}" method="post">{% csrf_token %}
+								<input type="search" name="search" value="Search" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Search';}" required>
+								<input type="submit" value=" ">
+							</form>
+						</div>
+                    {% block contents %}
+                    {% endblock %}
+					<h4>最新文章 </h4>
+                    {% get_recent_posts as recent_post_list %}
+                        {% for post in recent_post_list %}
+						<div class="blog-grids wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+							<div class="blog-grid-right">
+								<h5><a href="{{ post.get_absolute_url }}">{{ post.title }}</a> </h5>
+							</div>
+							<div class="clearfix"> </div>
+						</div>
+                        {% endfor %}
+
+						<div class="insta wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+					<h4>归档</h4>
+                        {% archives as date_list %}
+						<ul>
+                        {% for date in date_list %}
+                            <li>
+                                <a href="{% url 'image:archives' date.year date.month %}">{{ date.year }}
+                                    . {{ date.month }} </a>
+                            </li>
+                        {% empty %}
+                            暂无归档！
+                        {% endfor %}
+						</ul>
+					</div>
+					</div>
+				</div>
+		</div>
+		<div class="clearfix"></div>
+		<!-- technology-right -->
+	</div>
+</div>
+<div class="footer">
+		<div class="container">
+			<div class="col-md-4 footer-left wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+				<h4>About Me</h4>
+				<p>Consectetur adipisicing Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod .</p>
+					<div class="bht1">
+						<a href="#">Read More</a>
+					</div>
+			</div>
+
+			<div class="clearfix"></div>
+		</div>
+	</div>
+	<div class="copyright wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+				<div class="container">
+					<p>Copyright &copy; 2018.Company name All rights reserved.More Templates <a href="#" target="_blank" title="博客建设">博客建设</a> - Collect from <a href="#" title="网页模板" target="_blank">My Blog</a></p>
+				</div>
+			</div>
+</body>
+</html>

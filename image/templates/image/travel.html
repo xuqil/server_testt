@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+
+	<!-- technology-left -->
+	<div class="technology">
+	<div class="container">
+
+		<div class="col-md-9 technology-left">
+			<div class="blog">
+
+			<h2 class="w3">{{ post.title }}</h2>
+                <h4>{{ post.created_time }}</h4>
+			<div class="blog-grids1">
+				<div class="col-md-6 blog-grid">
+					<div class="blog-grid-right1">
+						<p>{{ post.body|safe }}</p>
+					</div>
+				</div>
+				<div class="clearfix"> </div>
+			</div>
+ <hr>
+		<div class="coment-form">
+					<h4>评论</h4>
+					<form action="{% url 'comments:post_comment' post.pk %}" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label for="{{ form.name.id_for_label }}">名字：</label>
+                                {{ form.name }}
+                                {{ form.name.errors }}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.email.id_for_label }}">邮箱：</label>
+                                {{ form.email }}
+                                {{ form.email.errors }}
+                            </div>
+                            <div class="col-md-4">
+                                <label for="{{ form.url.id_for_label }}">URL：</label>
+                                {{ form.url }}
+                                {{ form.url.errors }}
+                            </div>
+                            <div class="col-md-12">
+                                <label for="{{ form.text.id_for_label }}">评论：</label>
+                                {{ form.text }}
+                                {{ form.text.errors }}
+						        <input type="submit" value="发表">
+                            </div>
+                        </div>
+					    </form>
+            <ul class="coment-form">
+            <h3>评论列表，共 <span>{{ post.comment_set.count }}</span> 条评论</h3>
+                {% for comment in comment_list %}
+                <li class="glyphicon-comment">
+                    <span class="ni">{{ comment.name }}</span>
+                    <time class="submit-row">{{ comment.created_time }}</time>
+                    <div class="text-capitalize">
+                        {{ comment.text }}
+                    </div>
+                </li>
+                {% empty %}
+                暂无评论
+                {% endfor %}
+
+            </ul>
+				</div>
+	</div>
+		</div>
+
+  {% endblock main %}
+
+
+
+
+{% block contents %}
+    <h4>文章目录 </h4>
+
+            <div class="blog-grids wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+                <div class="blog-grid-right">
+                    {{ post.toc|safe }}
+                </div>
+                <div class="clearfix"> </div>
+            </div>
+
+{% endblock contents %}

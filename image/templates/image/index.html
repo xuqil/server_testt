@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block main %}
+<!-- banner -->
+<div class="tlinks">Collect from <a href="http://www.baidu.com/" >联系我！</a></div>
+<div class="services w3l wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+		<div class="container">
+			<div class="grid_3 grid_5">
+				<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
+					<div id="myTabContent" class="tab-content">
+						<div role="tabpanel" class="tab-pane fade" id="expeditions" aria-labelledby="expeditions-tab">
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- technology-left -->
+	<div class="technology">
+	<div class="container">
+		<div class="col-md-9 technology-left">
+		<div class="tech-no">
+
+			<!-- technology-top -->
+        {% if error_msg %}
+        <p>{{ error_msg }}</p>
+        {% endif %}
+
+            {% for post in post_list %}
+			 <div class="tc-ch wow fadeInDown"  data-wow-duration=".8s" data-wow-delay=".2s">
+					<h3><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h3>
+                 <h6>BY <a href="#">{{ post.author }} </a> <a>{{ post.views }}阅读</a> <a>{{ post.comment_set.count }}评论</a></h6>
+                 <h6>{{ post.created_time }}</h6>
+						<p>{{ post.excerpt }}</p>
+						<div class="bht1">
+							<a href="{{ post.get_absolute_url }}">继续阅读</a>
+						</div>
+						<div class="soci">
+							<ul>
+								<li class="hvr-rectangle-out"><a class="fb" href="#"></a></li>
+								<li class="hvr-rectangle-out"><a class="twit" href="#"></a></li>
+								<li class="hvr-rectangle-out"><a class="goog" href="#"></a></li>
+								<li class="hvr-rectangle-out"><a class="pin" href="#"></a></li>
+								<li class="hvr-rectangle-out"><a class="drib" href="#"></a></li>
+							</ul>
+						</div>
+						<div class="clearfix"></div>
+			</div>
+                {% empty %}
+                <div class="table">暂时还没有发布文章</div>
+            {% endfor %}
+			<div class="clearfix"></div>
+			<!-- technology-top -->
+        {% if is_paginated %}
+			<nav class="paging">
+				<ul class="pagination pagination-lg">
+                {% if first %}
+					<li><a href="?page=1">1</a></li>
+                    {% endif %}
+                {% if left %}
+                    {% if left_has_more %}
+					<li><span aria-hidden="true">...</span></li>
+                    {% endif %}
+                    {% for i in left %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endfor %}
+                {% endif %}
+                <li class="current"><a class="current-page" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+                {% if right %}
+                    {% for i in right %}
+                        <li><a href="?page={{ i }}">{{ i }}</a></li>
+                    {% endfor %}
+                    {% if right_has_more %}
+					<li><span aria-hidden="true">...</span></li>
+                    {% endif %}
+                {% endif %}
+                {% if last %}
+                    <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                {% endif %}
+				</ul>
+			</nav>
+        {% endif %}
+			</div>
+		</div>
+		<!-- technology-right -->
+
+ {% endblock main %}
